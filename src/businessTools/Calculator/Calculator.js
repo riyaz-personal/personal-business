@@ -1,6 +1,22 @@
 import React, { useState } from "react";
-import { InputNumber, Button, Table, Checkbox, Typography, Divider, Row, Col, Card, message } from "antd";
-import { DollarCircleOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import {
+  InputNumber,
+  Button,
+  Table,
+  Checkbox,
+  Typography,
+  Divider,
+  Row,
+  Col,
+  Card,
+  message,
+} from "antd";
+import {
+  DollarCircleOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -33,7 +49,10 @@ const Calculator = () => {
 
   const saveSelected = () => {
     const selectedRows = results.filter((r) => selectedKeys.includes(r.key));
-    const newSaved = [...savedResults, ...selectedRows.filter((r) => !savedResults.some((s) => s.key === r.key))];
+    const newSaved = [
+      ...savedResults,
+      ...selectedRows.filter((r) => !savedResults.some((s) => s.key === r.key)),
+    ];
     setSavedResults(newSaved);
     message.success("Saved selected rows");
   };
@@ -55,7 +74,9 @@ const Calculator = () => {
     message.success("Reset saved selections");
   };
 
-  const totalProfit = savedResults.reduce((acc, curr) => acc + curr.profit, 0).toFixed(2);
+  const totalProfit = savedResults
+    .reduce((acc, curr) => acc + curr.profit, 0)
+    .toFixed(2);
 
   const columns = [
     {
@@ -103,26 +124,44 @@ const Calculator = () => {
   ];
 
   return (
-    <div style={{ padding: "30px", backgroundColor: "#f4f7fb", minHeight: "100vh" }}>
+    <div
+      style={{
+        padding: "16px",
+        backgroundColor: "#f4f7fb",
+        minHeight: "100vh",
+      }}
+    >
       <Row justify="center">
-        <Col span={24} lg={14} xl={12}>
+        <Col xs={24} sm={22} md={20} lg={18} xl={14} xxl={12}>
+          <Row justify="center" style={{ marginBottom: 16 }}>
+            <Col>
+              <Link to="/" style={{ fontSize: 16 }}>
+                ← Back to Homepage
+              </Link>
+            </Col>
+          </Row>
           <Card
             title={
-              <Row align="middle">
+              <Row align="middle" gutter={10} wrap>
                 <Col>
-                  <DollarCircleOutlined style={{ fontSize: 24, color: "#1890ff" }} />
+                  <DollarCircleOutlined
+                    style={{ fontSize: 24, color: "#1890ff" }}
+                  />
                 </Col>
                 <Col>
-                  <Title level={2} style={{ marginLeft: 10 }}>
+                  <Title level={3} style={{ margin: 0 }}>
                     Monthly Profit Calculator
                   </Title>
                 </Col>
               </Row>
             }
-            style={{ boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", borderRadius: 8 }}
+            style={{
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+              borderRadius: 8,
+            }}
           >
-            <Row gutter={16}>
-              <Col span={8}>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={8}>
                 <label>Amount (₹):</label>
                 <InputNumber
                   style={{ width: "100%" }}
@@ -133,7 +172,7 @@ const Calculator = () => {
                   placeholder="Enter amount"
                 />
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={8}>
                 <label>Profit %:</label>
                 <InputNumber
                   style={{ width: "100%" }}
@@ -145,7 +184,7 @@ const Calculator = () => {
                   placeholder="Enter profit %"
                 />
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={8}>
                 <label>Days in Month:</label>
                 <InputNumber
                   style={{ width: "100%" }}
@@ -174,7 +213,7 @@ const Calculator = () => {
             title="Calculated Entries"
             bordered={false}
             extra={
-              <Row gutter={16}>
+              <Row gutter={[8, 8]} wrap>
                 <Col>
                   <Button type="primary" onClick={saveSelected}>
                     Sum Selected
@@ -196,25 +235,38 @@ const Calculator = () => {
                 </Col>
               </Row>
             }
-            style={{ boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", marginTop: 20 }}
+            style={{
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+              marginTop: 20,
+            }}
           >
             <Table
               dataSource={results}
               columns={columns}
               pagination={false}
               rowKey="key"
+              scroll={{ x: "max-content" }}
             />
           </Card>
 
           {savedResults.length > 0 && (
             <>
               <Divider />
-              <Card title="Saved Selections" bordered={false} style={{ boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)" }}>
+              <Card
+                title="Saved Selections"
+                bordered={false}
+                style={{
+                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                }}
+              >
                 <Table
                   dataSource={savedResults}
-                  columns={columns.filter((col) => col.title !== "Select" && col.title !== "Delete")}
+                  columns={columns.filter(
+                    (col) => col.title !== "Select" && col.title !== "Delete"
+                  )}
                   pagination={false}
                   rowKey="key"
+                  scroll={{ x: "max-content" }}
                 />
                 <Text strong style={{ marginTop: 20 }}>
                   Total Profit: ₹{totalProfit}
