@@ -224,15 +224,7 @@ const Calculator = () => {
                     Remove Selected
                   </Button>
                 </Col>
-                <Col>
-                  <Button
-                    icon={<ReloadOutlined />}
-                    onClick={resetSavedSelections}
-                    style={{ backgroundColor: "#f5222d", color: "#fff" }}
-                  >
-                    Reset Selections
-                  </Button>
-                </Col>
+               
               </Row>
             }
             style={{
